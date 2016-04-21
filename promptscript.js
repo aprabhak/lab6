@@ -56,7 +56,20 @@ function fastestPath() {
 	//document.write("fuck");
 	if (SE === true && S === true) {
 		//document.write("fuck");
-		
+		var same = false;
+		var finalRequired = SoftwareEngineering.arrRequired.slice();
+		for (var i = 0; i < Security.arrRequired.length; i++) {
+			same = false;
+			for (var j = 0; j < finalRequired.length; j++) {
+				if (finalRequired[j] === Security.arrRequired[i]) {
+					same = true;
+				}
+			}
+			if (same !== true) {
+				finalRequired.push(Security.arrRequired[i]);
+			}
+		}
+		document.getElementById("demo4").innerHTML ="You are required to take "+SoftwareEngineering.required+" courses from " +finalRequired.join(', ');
 	}
 }
 
