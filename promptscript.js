@@ -57,19 +57,34 @@ function fastestPath() {
 	if (SE === true && S === true) {
 		//document.write("fuck");
 		var same = false;
-		var finalRequired = SoftwareEngineering.arrRequired.slice();
-		for (var i = 0; i < Security.arrRequired.length; i++) {
-			same = false;
-			for (var j = 0; j < finalRequired.length; j++) {
-				if (finalRequired[j] === Security.arrRequired[i]) {
-					same = true;
+		var finalSERequired = SoftwareEngineering.arrRequired.slice();
+		var finalSRequired = Security.arrRequired.slice();
+		var finalComRequired = [];
+		var commonNum = 0;
+		for (var i = 0; i < finalSRequired.length; i++) {
+			//same = false;
+			for (var j = 0; j < finalSERequired.length; j++) {
+				if (finalSERequired[j] === finalSRequired[i]) {
+					//same = true;
+					finalComRequired.push(finalSERequired[j]);
+					commonNum = commonNum + 1;
+					var x = finalSERequired.indexOf(finalSERequired[j]);
+					if (x != -1) {
+						finalSERequired.splice(x,1);
+					}
+					x = finalSRequired.indexOf(finalSRequired[i]);
+					if (x != -1) {
+						finalSRequired.splice(x,1);
+					}
 				}
 			}
-			if (same !== true) {
-				finalRequired.push(Security.arrRequired[i]);
-			}
+			//if (same !== true) {
+			//	finalRequired.push(Security.arrRequired[i]);
+			//}
 		}
-		document.getElementById("demo4").innerHTML ="You are required to take "+SoftwareEngineering.required+" courses from " +finalRequired.join(', ');
+		document.getElementById("demo6").innerHTML = "You should take the common core courses "+finalComRequired.join(', ');
+		document.getElementById("demo4").innerHTML ="You are required to take "+(SoftwareEngineering.required-commonNum)+" Software Engineering core courses from " +finalSERequired.join(', ');
+		document.getElementById("demo5").innerHTML ="You are required to take "+(Security.required-commonNum)+" Security core courses from " +finalSRequired.join(', ');
 	}
 }
 
