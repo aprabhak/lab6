@@ -53,14 +53,18 @@ function promptMajor() {
     }
 }
 function fastestPath() {
-	//document.write("fuck");
 	if (SE === true && S === true) {
-		//document.write("fuck");
 		var same = false;
 		var finalSERequired = SoftwareEngineering.arrRequired.slice();
 		var finalSRequired = Security.arrRequired.slice();
-		var finalComRequired = [];
+		var finalComRequired = []; //fulfills required core for both SE and S
 		var commonNum = 0;
+		var finalSEelective = SoftwareEngineering.arrElective.slice();
+		var SreqSEelec = []; //fulfills S required and SE elective.
+		var Sreqnum = 0;
+		var SEelecnum = 0;
+		var finalSelective = Security.arrElective.slice();
+		var SEreqSelec = [] //fulfills SE required and S elective.
 		for (var i = 0; i < finalSRequired.length; i++) {
 			//same = false;
 			for (var j = 0; j < finalSERequired.length; j++) {
@@ -78,11 +82,41 @@ function fastestPath() {
 					}
 				}
 			}
-			//if (same !== true) {
-			//	finalRequired.push(Security.arrRequired[i]);
-			//}
+			for (var j = 0; j < finalSEelective.length; j++) {
+				if (finalSEelective[j] === finalSRequired[i]) {
+					//same = true;
+					SreqSEelec.push(finalSEelective[j]);
+					Sreqnum = Sreqnum + 1;
+					SEelecnum = SEelecnum + 1;
+					var x = finalSEelective.indexOf(finalSEelective[j]);
+					if (x != -1) {
+						finalSEelective.splice(x,1);
+					}
+					x = finalSRequired.indexOf(finalSRequired[i]);
+					if (x != -1) {
+						finalSRequired.splice(x,1);
+					}
+				}
+			}
+		}
+		for (var i = 0; i < finalSERequired.length; i++) {
+			for (var j = 0; j < finalSelective.length; j++) {
+				if (finalSelective[j] == finalSERequired[i]) {
+					SEreqSelec.push(finalSelective[j]);
+					var x = finalSelective.indexOf(finalSelective[j]);
+					if (x != -1) {
+						finalSelective.splice(x,1);
+					}
+					x = finalSERequired.indexOf(finalSERequired[i]);
+					if (x != -1) {
+						finalSERequired.splice(x,1);
+					}
+				}
+			}
 		}
 		document.getElementById("demo6").innerHTML = "You should take the common core courses "+finalComRequired.join(', ');
+		document.getElementById("demo7").innerHTML = "You should take the common course for S req and SE elec "+SreqSEelec.join(', ');
+		document.getElementById("demo8").innerHTML = "You should take the common courses for SE req and S elec "+SEreqSelec.join(', ');
 		document.getElementById("demo4").innerHTML ="You are required to take "+(SoftwareEngineering.required-commonNum)+" Software Engineering core courses from " +finalSERequired.join(', ');
 		document.getElementById("demo5").innerHTML ="You are required to take "+(Security.required-commonNum)+" Security core courses from " +finalSRequired.join(', ');
 	}
