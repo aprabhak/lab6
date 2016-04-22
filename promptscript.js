@@ -28,7 +28,7 @@ var Security = {
 function promptMajor() {
     userInputMajor = document.getElementById("userInputMajor").value;
     //userInputTrack = document.getElementById("userInputTrack").value;
-    document.getElementById("demo").innerHTML = "Your Major is "+userInputMajor;
+    document.getElementById("demo0").innerHTML = "Your Major is "+userInputMajor;
     //document.getElementById("demo2").innerHTML = "Your Track is "+userInputTrack;
     if (userInputMajor === "Computer Science" || userInputMajor === "ComputerScience") {
     	var nTracks = prompt("How many tracks?");
@@ -36,7 +36,7 @@ function promptMajor() {
   			arrTracks.push(prompt('Enter track ' + (i+1))); // push the value into the array
 			}
 			//alert('Full array: ' + arrTracks.join(', '));
-			document.getElementById("demo2").innerHTML ="Your tracks are " +arrTracks.join(', ');
+			document.getElementById("demo1").innerHTML ="Your tracks are " +arrTracks.join(', ');
 			reqCourses();
 		for (var i = 0; i < nTracks; i++) {
 			if (arrTracks[i] === "Software Engineering") { //Check if track chose contains software engineering.
@@ -135,7 +135,7 @@ function fastestPath() {
 				}
 			}
 		} */
-				for (var i = 0; i < finalSelective.length; i++) {
+				for (var i = 0; i < finalSelective.length; i++) {   //this is a much nicer way.
   					var indexInB = finalSEelective.indexOf(finalSelective[i]);
  					 if (indexInB > -1){
     						SEelecSelec.push(finalSelective[i]);
@@ -157,14 +157,18 @@ function fastestPath() {
 		}
 		var finalSEnum2 = SoftwareEngineering.elective-SEelecnum;
 		var finalSnum2 = Security.elective-Selecnum;
-		document.getElementById("demo6").innerHTML = "You should take the common core courses "+finalComRequired.join(', ');
-		document.getElementById("demo7").innerHTML = "You should take the common course for S req and SE elec "+SreqSEelec.join(', ');
-		document.getElementById("demo8").innerHTML = "You should take the common courses for SE req and S elec "+SEreqSelec.join(', ');
-		document.getElementById("demo9").innerHTML = "You should take "+finalSEnum2+" S elecs and "+finalSEnum2+" SE elecs from common electives "+SEelecSelec.join(', ');
+		document.getElementById("demo2").innerHTML = "You must take 4 required courses from "+SoftwareEngineering.arrRequired.join(', ');
+		document.getElementById("demo3").innerHTML = "You must take 3 elective courses from "+SoftwareEngineering.arrElective.join(', ');
+		document.getElementById("demo4").innerHTML = "You must take 3 required courses from "+Security.arrRequired.join(', ');
+		document.getElementById("demo5").innerHTML = "You must take 3 elective courses from "+Security.arrElective.join(', ');
+		document.getElementById("demo6").innerHTML = "You should take the common required courses "+finalComRequired.join(', ');
+		document.getElementById("demo9").innerHTML = "You should take the common courses for Security requirements and Software Engineering electives "+SreqSEelec.join(', ');
+		document.getElementById("demo10").innerHTML = "You should take the common courses for Software Engineering requirements and Security electives "+SEreqSelec.join(', ');
+		document.getElementById("demo11").innerHTML = "You should take "+(finalSEnum2-1)+" Security electives and "+finalSEnum2+" Software Engineering electives from common electives "+SEelecSelec.join(', ');
 		//document.getElementById("demo10").innerHTML = "You should take "+Selecnum+" courses from the Sec elec "+finalSelective.join(', ');
 		//document.getElementById("demo11").innerHTML = "You should take "+SEelecnum+" courses from Software elec "+finalSEelective.join(', ');
-		document.getElementById("demo4").innerHTML ="You are required to take "+finalSEnum+" Software Engineering core courses from " +finalSERequired.join(', ');
-		document.getElementById("demo5").innerHTML ="You are required to take "+finalSnum+" Security core courses from " +finalSRequired.join(', ');
+		//document.getElementById("demo7").innerHTML ="You are required to take "+finalSEnum+" Software Engineering core courses from " +finalSERequired.join(', ');
+		document.getElementById("demo8").innerHTML ="You should take "+finalSnum+" Security required courses from " +finalSRequired.join(', ');
 	}
 }
 
@@ -175,6 +179,6 @@ function reqCourses() {
 	core.push("CS250");
 	core.push("CS251");
 	core.push("CS252");
-	document.getElementById("demo3").innerHTML ="You must take the courses "+core.join(', ');
+	//document.getElementById("demo3").innerHTML ="You must take the courses "+core.join(', ');
 }
 
