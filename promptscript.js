@@ -120,7 +120,7 @@ function fastestPath() {
 			}
 		}
 
-		for (var i = 0; i < finalSelective.length; i++) { //There is something wrong with this one.
+		/*for (var i = 0; i < finalSelective.length; i++) { //There is something wrong with this one.
 			for (var j = 0; j < finalSEelective.length;j++){ //It does not show the correct repeats.
 				if (finalSelective[i] == finalSEelective[j]) {
 					SEelecSelec.push(finalSEelective[j]);
@@ -134,7 +134,19 @@ function fastestPath() {
 					}
 				}
 			}
-		}
+		} */
+				for (var i = 0; i < finalSelective.length; i++) {
+  					var indexInB = finalSEelective.indexOf(finalSelective[i]);
+ 					 if (indexInB > -1){
+    						SEelecSelec.push(finalSelective[i]);
+    						//SEelecnum++;
+    						//Selecnum++;
+    						finalSelective.splice(i, 1);
+    						finalSEelective.splice(indexInB, 1);
+    						i--;
+  						}
+					}
+
 		var finalSEnum = SoftwareEngineering.required-commonNum-SEreqnum;
 		if (finalSEnum < 0) {
 			finalSEnum = 0;
@@ -143,12 +155,14 @@ function fastestPath() {
 		if (finalSnum < 0) {
 			finalSnum = 0;
 		}
+		var finalSEnum2 = SoftwareEngineering.elective-SEelecnum;
+		var finalSnum2 = Security.elective-Selecnum;
 		document.getElementById("demo6").innerHTML = "You should take the common core courses "+finalComRequired.join(', ');
 		document.getElementById("demo7").innerHTML = "You should take the common course for S req and SE elec "+SreqSEelec.join(', ');
 		document.getElementById("demo8").innerHTML = "You should take the common courses for SE req and S elec "+SEreqSelec.join(', ');
-		document.getElementById("demo9").innerHTML = "You should take the common courses for SE elec and S elec "+SEelecSelec.join(', ');
-		document.getElementById("demo10").innerHTML = "You should take the Security elec "+finalSelective.join(', ');
-		document.getElementById("demo11").innerHTML = "You should take the Software elec "+finalSEelective.join(', ');
+		document.getElementById("demo9").innerHTML = "You should take "+finalSEnum2+" S elecs and "+finalSEnum2+" SE elecs from common electives "+SEelecSelec.join(', ');
+		//document.getElementById("demo10").innerHTML = "You should take "+Selecnum+" courses from the Sec elec "+finalSelective.join(', ');
+		//document.getElementById("demo11").innerHTML = "You should take "+SEelecnum+" courses from Software elec "+finalSEelective.join(', ');
 		document.getElementById("demo4").innerHTML ="You are required to take "+finalSEnum+" Software Engineering core courses from " +finalSERequired.join(', ');
 		document.getElementById("demo5").innerHTML ="You are required to take "+finalSnum+" Security core courses from " +finalSRequired.join(', ');
 	}
