@@ -219,15 +219,37 @@ function fastestPath() {
     		i--;
   			}
 		}
-
-
+	for (var i = 0; i < SEel.length; i++) {   //Gets common courses for SP required and SE electives.
+  		var indexInB = SPrq.indexOf(SEel[i]); //The first for loop must contain array with longer length.
+ 		if (indexInB > -1){
+    		SPrqSEel.push(SEel[i]);
+    		//SEelecnum++;
+    		//Selecnum++;
+    		SEel.splice(i, 1);
+    		SPrq.splice(indexInB, 1);
+    		i--;
+  			}
+		}
+	for (var i = 0; i < SEel.length; i++) {   //Gets common courses for SP electives and SE electives.
+  		var indexInB = SPel.indexOf(SEel[i]); //The first for loop must contain array with longer length.
+ 		if (indexInB > -1){
+    		SEelSPel.push(SEel[i]);
+    		//SEelecnum++;
+    		//Selecnum++;
+    		SEel.splice(i, 1);
+    		SPel.splice(indexInB, 1);
+    		i--;
+  			}
+		}
 		document.getElementById("demo2").innerHTML = "You must take 4 required courses for Software Engineering "+SoftwareEngineering.arrRequired.join(', ');
 		document.getElementById("demo3").innerHTML = "You must take 3 elective courses for Software Engineering "+SoftwareEngineering.arrElective.join(', ');
 		document.getElementById("demo4").innerHTML = "You must take 3 required courses for Systems Programming "+SystemsProgramming.arrRequired.join(', ');
 		document.getElementById("demo5").innerHTML = "You must take 3 elective courses for Systems Programming "+SystemsProgramming.arrElective.join(', ');
 		document.getElementById("demo6").innerHTML = "You should take the common required courses "+SErqSPrq.join(', ');
-		document.getElementById("demo7").innerHTML = "You should take the common courses for SoftwareEngineering requirements and Systems Programming electives "+SErqSPel.join(', ')
-		document.getElementById("demo8").innerHTML = "You should take the common courses for Systems Programming requirements and Software Engineering electives "+SPrqSEel.join(', ')
+		document.getElementById("demo7").innerHTML = "You should take the common courses for Software Engineering requirements and Systems Programming electives "+SErqSPel.join(', ');
+		document.getElementById("demo8").innerHTML = "You should take the common courses for Systems Programming requirements and Software Engineering electives "+SPrqSEel.join(', ');
+		document.getElementById("demo9").innerHTML = "You should take 2 common courses for Systems Programming electives and Software Engineering electives "+SEelSPel.join(', ');
+		document.getElementById("demo10").innerHTML = "You should take the required course CS408 for Software Engineering";
 	}
 }
 
