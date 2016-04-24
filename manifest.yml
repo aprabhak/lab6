@@ -1,0 +1,7 @@
+---
+applications:
+- buildpack: https://github.com/cloudfoundry/staticfile-buildpack
+  host: Lab6test
+  name: Lab6test
+  memory: 64M
+  
