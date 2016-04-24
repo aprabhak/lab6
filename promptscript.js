@@ -161,10 +161,10 @@ function fastestPath() {
 		}
 		var finalSEnum2 = SoftwareEngineering.elective-SEelecnum;
 		var finalSnum2 = Security.elective-Selecnum;
-		document.getElementById("demo2").innerHTML = "You must take 4 required courses from "+SoftwareEngineering.arrRequired.join(', ');
-		document.getElementById("demo3").innerHTML = "You must take 3 elective courses from "+SoftwareEngineering.arrElective.join(', ');
-		document.getElementById("demo4").innerHTML = "You must take 3 required courses from "+Security.arrRequired.join(', ');
-		document.getElementById("demo5").innerHTML = "You must take 3 elective courses from "+Security.arrElective.join(', ');
+		document.getElementById("demo2").innerHTML = "You must take 4 required courses for Software Engineering from "+SoftwareEngineering.arrRequired.join(', ');
+		document.getElementById("demo3").innerHTML = "You must take 3 elective courses for Software Engineering from "+SoftwareEngineering.arrElective.join(', ');
+		document.getElementById("demo4").innerHTML = "You must take 3 required courses for Security from "+Security.arrRequired.join(', ');
+		document.getElementById("demo5").innerHTML = "You must take 3 elective courses for Security from "+Security.arrElective.join(', ');
 		document.getElementById("demo6").innerHTML = "You should take the common required courses "+finalComRequired.join(', ');
 		document.getElementById("demo9").innerHTML = "You should take the common courses for Security requirements and Software Engineering electives "+SreqSEelec.join(', ');
 		document.getElementById("demo10").innerHTML = "You should take the common courses for Software Engineering requirements and Security electives "+SEreqSelec.join(', ');
@@ -219,7 +219,7 @@ function fastestPath() {
     		i--;
   			}
 		}
-	for (var i = 0; i < SEel.length; i++) {   //Gets common courses for SP required and SE electives.
+	/*for (var i = 0; i < SEel.length; i++) {   //Gets common courses for SP required and SE electives.
   		var indexInB = SPrq.indexOf(SEel[i]); //The first for loop must contain array with longer length.
  		if (indexInB > -1){
     		SPrqSEel.push(SEel[i]);
@@ -229,7 +229,7 @@ function fastestPath() {
     		SPrq.splice(indexInB, 1);
     		i--;
   			}
-		}
+		} */
 	for (var i = 0; i < SEel.length; i++) {   //Gets common courses for SP electives and SE electives.
   		var indexInB = SPel.indexOf(SEel[i]); //The first for loop must contain array with longer length.
  		if (indexInB > -1){
@@ -248,8 +248,74 @@ function fastestPath() {
 		document.getElementById("demo6").innerHTML = "You should take the common required courses "+SErqSPrq.join(', ');
 		document.getElementById("demo7").innerHTML = "You should take the common courses for Software Engineering requirements and Systems Programming electives "+SErqSPel.join(', ');
 		document.getElementById("demo8").innerHTML = "You should take the common courses for Systems Programming requirements and Software Engineering electives "+SPrqSEel.join(', ');
-		document.getElementById("demo9").innerHTML = "You should take 2 common courses for Systems Programming electives and Software Engineering electives "+SEelSPel.join(', ');
+		document.getElementById("demo9").innerHTML = "You should take 2 common courses for Systems Programming electives and Software Engineering electives from "+SEelSPel.join(', ');
 		document.getElementById("demo10").innerHTML = "You should take the required course CS408 for Software Engineering";
+	}
+	if (S == true && SP == true) {
+		var Srq = Security.arrRequired.slice();
+		var Sel = Security.arrElective.slice();
+		var SPrq = SystemsProgramming.arrRequired.slice();
+		var SPel = SystemsProgramming.arrElective.slice();
+		var SrqSPrq = []; //fulfills required core for S and SP
+		var SrqSPel = []; //fulfulls S required and SP elective
+		var SPrqSel = []; //fulfills SP required and S elective
+		var SelSPel = []; //fulfills SE elective and SP elective
+
+	for (var i = 0; i < Srq.length; i++) {   //Gets common core courses.
+  		var indexInB = SPrq.indexOf(Srq[i]);
+ 		if (indexInB > -1){
+    		SrqSPrq.push(Srq[i]);
+    		//SEelecnum++;
+    		//Selecnum++;
+    		Srq.splice(i, 1);
+    		SPrq.splice(indexInB, 1);
+    		i--;
+  			}
+		}
+
+
+	for (var i = 0; i < Srq.length; i++) {   //Gets common courses for S required and SP electives.
+  		var indexInB = SPel.indexOf(Srq[i]);
+ 		if (indexInB > -1){
+    		SrqSPel.push(Srq[i]);
+    		//SEelecnum++;
+    		//Selecnum++;
+    		Srq.splice(i, 1);
+    		SPel.splice(indexInB, 1);
+    		i--;
+  			}
+		}
+	for (var i = 0; i < Sel.length; i++) {   //Gets common courses for SP required and S electives.
+  		var indexInB = SPrq.indexOf(Sel[i]); //The first for loop must contain array with longer length.
+ 		if (indexInB > -1){
+    		SPrqSel.push(Sel[i]);
+    		//SEelecnum++;
+    		//Selecnum++;
+    		Sel.splice(i, 1);
+    		SPrq.splice(indexInB, 1);
+    		i--;
+  			}
+		}
+	for (var i = 0; i < Sel.length; i++) {   //Gets common courses for SP electives and S electives.
+  		var indexInB = SPel.indexOf(Sel[i]); //The first for loop must contain array with longer length.
+ 		if (indexInB > -1){
+    		SelSPel.push(Sel[i]);
+    		//SEelecnum++;
+    		//Selecnum++;
+    		Sel.splice(i, 1);
+    		SPel.splice(indexInB, 1);
+    		i--;
+  			}
+		}   //*/ 
+		document.getElementById("demo2").innerHTML = "You must take 3 required courses for Security "+Security.arrRequired.join(', ');
+		document.getElementById("demo3").innerHTML = "You must take 3 elective courses for Security "+Security.arrElective.join(', ');
+		document.getElementById("demo4").innerHTML = "You must take 3 required courses for Systems Programming "+SystemsProgramming.arrRequired.join(', ');
+		document.getElementById("demo5").innerHTML = "You must take 3 elective courses for Systems Programming "+SystemsProgramming.arrElective.join(', ');
+		document.getElementById("demo6").innerHTML = "You should take the common required courses "+SrqSPrq.join(', ');
+		document.getElementById("demo7").innerHTML = "You should take the common courses for Security requirements and Systems Programming electives "+SrqSPel.join(', ');
+		document.getElementById("demo8").innerHTML = "You should take the common courses for Systems Programming requirements and Security electives "+SPrqSel.join(', ');
+		document.getElementById("demo9").innerHTML = "You should take 2 common courses for Systems Programming electives and Security electives from "+SelSPel.join(', ');
+		document.getElementById("demo10").innerHTML = "You should take the required course CS355 for Security";
 	}
 }
 
