@@ -14,10 +14,65 @@ var Security = {
 	requiredCourses: ["CS354","CS355","CS426"],
 	arrRequired: ["CS354","CS355","CS426"],
 	electives: ["CS307","CS348","CS352","CS353","CS381","CS408","CS422","CS448","CS454","CS481"],
+};
+
+var SystemsProgramming = {
+	required: 3,
+	electiveNum: 3,
+	choices: [],
+	requiredCourses: ["CS354","CS352","CS422"],
+	arrRequired: ["CS354","CS352","CS422"],
+	electives: ["CS307","CS334","CS456","CS353","CS381","CS426","CS454","CS448","CS481"],
 }; 
 
+var ProgrammingLanguage = {
+	required: 3,
+	electiveNum: 3,
+	choices: [],
+	requiredCourses: ["CS354","CS352","CS456"],
+	arrRequired: ["CS354","CS352","CS456"],
+	electives: ["CS307","CS353","CS381","CS422", "CS483"],
+};
+
+var MachineIntelligence = {
+	required: 3,
+	electiveNum: 2,
+	choices: [["CS417", "CS473"], ["STAT416", "MA416", "STAT512"]],
+	requiredCourses: ["CS390","CS381"],
+	arrRequired: ["CS390","CS381"],
+	electives: ["CS348","CS352","CS448","CS456", "CS483", "CS471", "CS473"],
+};  
+
+var Foundations = {
+	required: 3,
+	electiveNum: 4,
+	choices: [],
+	requiredCourses: ["CS352","CS381"],
+	arrRequired: ["CS352","CS381"],
+	electives: ["CS334","CS355","CS448","CS456", "CS483", "CS471", "CS314"],
+};
+
+var Database = {
+	required: 3,
+	electiveNum: 4,
+	choices: [],
+	requiredCourses: ["CS352","CS381"],
+	arrRequired: ["CS390","CS381"],
+	electives: ["CS334","CS355","CS448","CS456", "CS483", "CS471", "CS314"],
+};
+
+var ComputerGraphics = {
+	required: 3,
+	electiveNum: 4,
+	choices: [["CS314", "CS381"]],
+	requiredCourses: ["CS334"],
+	arrRequired: ["CS314", "CS381"],
+	electives: ["CS352","CS354","CS381","CS422", "CS434", "CS448", "CS314", "CS471"],
+};
+
+
 var coursesTaking = [];
-var tracks = [SoftwareEngineering, Security];
+var tracks = [SoftwareEngineering, ProgrammingLanguage, MachineIntelligence];
 
 var userInputMajor;
 var arrTracks = [];
@@ -28,7 +83,6 @@ var S = false;
 function promptMajor() {
     userInputMajor = document.getElementById("userInputMajor").value;
     //userInputTrack = document.getElementById("userInputTrack").value;
-    document.getElementById("demo0").innerHTML = "Your Major is "+userInputMajor;
     //document.getElementById("demo2").innerHTML = "Your Track is "+userInputTrack;
     if (userInputMajor === "Computer Science" || userInputMajor === "ComputerScience") {
     	var nTracks = prompt("How many tracks?");
@@ -36,7 +90,6 @@ function promptMajor() {
   			arrTracks.push(prompt('Enter track ' + (i+1))); // push the value into the array
 			}
 			//alert('Full array: ' + arrTracks.join(', '));
-			document.getElementById("demo1").innerHTML ="Your tracks are " +arrTracks.join(', ');
 			reqCourses();
 		for (var i = 0; i < nTracks; i++) {
 			if (arrTracks[i] === "Software Engineering") { //Check if track chose contains software engineering.
@@ -95,6 +148,7 @@ Array.max = function( array ){
 
 function fastestPath() {
 	//Process requirements
+	console.log(tracks.length);
 	for(var i = 0; i < tracks.length; i++) {
 		//Cycle through each required course
 		for(var j = 0; j < tracks[i].requiredCourses.length; j++) {
@@ -139,15 +193,13 @@ function fastestPath() {
 	for(var i = 0; i < tracks.length; i++) {
 		var numElectivesSelected = 0;
 		//Cycle until number of electives needed are found
-		console.log(tracks[i].electiveNum);
 		//Count all possible electives already being taken
 		for(var k = 0; k < tracks[i].electives.length; k++) {
 			if(arrayContains(coursesTaking, tracks[i].electives[k]) && !arrayContains(tracks[i].arrRequired, tracks[i].electives[k])) {
 				numElectivesSelected++;
-				console.log(tracks[i].electives[k]);
 			}
 		}
-
+		console.log(numElectivesSelected);
 		if(numElectivesSelected < tracks[i].electiveNum) {
 			var courseRanking = new Array(tracks[i].electives.length);
 			//Cycle through each course again.
@@ -157,11 +209,12 @@ function fastestPath() {
 			}
 			var bestChoiceIndex = Array.max(courseRanking);
 			var temp = 0;
-			while (numElectivesSelected <= tracks[i].electiveNum) {
+			while (numElectivesSelected < tracks[i].electiveNum) {
 				var l = 0;
-				while (l < tracks[i].electives.length && numElectivesSelected <= tracks[i].electiveNum ) {
+				while (l < tracks[i].electives.length && numElectivesSelected < tracks[i].electiveNum ) {
 					if((courseRanking[l] == bestChoiceIndex - temp) && !arrayContains(coursesTaking, tracks[i].electives[l])) {
 						coursesTaking.push(tracks[i].electives[l]);
+						console.log(numElectivesSelected + tracks[i].electives[l]);
 						numElectivesSelected++;
 					}
 					l++;
