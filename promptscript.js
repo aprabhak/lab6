@@ -1,4 +1,5 @@
 var SoftwareEngineering = {
+	name: "SoftwareEngineering",
 	required: 3,
 	electiveNum: 2,
 	requiredCourses: ["CS307","CS408","CS407"],
@@ -8,6 +9,7 @@ var SoftwareEngineering = {
 };
 
 var Security = {
+	name: "Security",
 	required: 3,
 	electiveNum: 3,
 	choices: [],
@@ -17,6 +19,7 @@ var Security = {
 };
 
 var SystemsProgramming = {
+	name: "SystemsProgramming",
 	required: 3,
 	electiveNum: 3,
 	choices: [],
@@ -26,6 +29,7 @@ var SystemsProgramming = {
 }; 
 
 var ProgrammingLanguage = {
+	name: "ProgrammingLanguage",
 	required: 3,
 	electiveNum: 3,
 	choices: [],
@@ -35,6 +39,7 @@ var ProgrammingLanguage = {
 };
 
 var MachineIntelligence = {
+	name: "MachineIntelligence",
 	required: 3,
 	electiveNum: 2,
 	choices: [["CS417", "CS473"], ["STAT416", "MA416", "STAT512"]],
@@ -44,6 +49,7 @@ var MachineIntelligence = {
 };  
 
 var Foundations = {
+	name: "Foundations",
 	required: 3,
 	electiveNum: 4,
 	choices: [],
@@ -53,6 +59,7 @@ var Foundations = {
 };
 
 var Database = {
+	name: "Database",
 	required: 3,
 	electiveNum: 4,
 	choices: [],
@@ -62,6 +69,7 @@ var Database = {
 };
 
 var ComputerGraphics = {
+	name: "ComputerGraphics",
 	required: 3,
 	electiveNum: 4,
 	choices: [["CS314", "CS381"]],
@@ -72,39 +80,68 @@ var ComputerGraphics = {
 
 
 var coursesTaking = [];
-var tracks = [SoftwareEngineering, ProgrammingLanguage, MachineIntelligence];
+var tracks = [];
 
-var userInputMajor;
-var arrTracks = [];
-var core = [];
-var SE = false;
-var S = false;
+function updateTracks(key) {
+	switch(key) {
+		case "CSE":
 
-function promptMajor() {
-    userInputMajor = document.getElementById("userInputMajor").value;
-    //userInputTrack = document.getElementById("userInputTrack").value;
-    //document.getElementById("demo2").innerHTML = "Your Track is "+userInputTrack;
-    if (userInputMajor === "Computer Science" || userInputMajor === "ComputerScience") {
-    	var nTracks = prompt("How many tracks?");
-    	for (var i = 0; i < nTracks; i++) {              // loop n times
-  			arrTracks.push(prompt('Enter track ' + (i+1))); // push the value into the array
-			}
-			//alert('Full array: ' + arrTracks.join(', '));
-			reqCourses();
-		for (var i = 0; i < nTracks; i++) {
-			if (arrTracks[i] === "Software Engineering") { //Check if track chose contains software engineering.
-				//document.getElementById("demo4").innerHTML ="You are required to take "+SoftwareEngineering.required+" courses from " +SoftwareEngineering.arrRequired.join(', ');
-				//document.getElementById("demo5").innerHTML ="Your are required to take "+SoftwareEngineering.elective+" courses from " +SoftwareEngineering.arrElective.join(', ');
-				SE = true;
-			}
-			if (arrTracks[i] === "Security") {
-				S = true;
-			}
-		}
-			//document.write(Security.arrRequired[0]);
-			fastestPath();
-    }
+			break;
+		case "CGV":
+			if(arrayContains(tracks, ComputerGraphics))
+				tracks.splice(tracks.indexOf(ComputerGraphics), 1);
+			else
+				tracks.push(ComputerGraphics);
+			break;
+		case "DBIS":
+			if(arrayContains(tracks, Database))
+				tracks.splice(tracks.indexOf(Database), 1);
+			else
+				tracks.push(Database);
+			break;
+		case "FCS":
+			if(arrayContains(tracks, Foundations))
+				tracks.splice(tracks.indexOf(Foundations), 1);
+			else
+				tracks.push(Foundations);
+			break;
+		case "MI":
+			if(arrayContains(tracks, MachineIntelligence))
+				tracks.splice(tracks.indexOf(MachineIntelligence), 1);
+			else
+				tracks.push(MachineIntelligence);
+			break;	
+		case "PL":
+			if(arrayContains(tracks, ProgrammingLanguage))
+				tracks.splice(tracks.indexOf(ProgrammingLanguage), 1);
+			else
+				tracks.push(ProgrammingLanguage);
+			break;	
+		case "SEC":
+			if(arrayContains(tracks, Security))
+				tracks.splice(tracks.indexOf(Security), 1);
+			else
+				tracks.push(Security);
+			break;	
+		case "SE":
+			if(arrayContains(tracks, SoftwareEngineering))
+				tracks.splice(tracks.indexOf(SoftwareEngineering), 1);
+			else
+				tracks.push(SoftwareEngineering);
+			break;	
+		case "SYS":
+			if(arrayContains(tracks, SystemsProgramming))
+				tracks.splice(tracks.indexOf(SystemsProgramming), 1);
+			else
+				tracks.push(SystemsProgramming);
+			break;																		
+		defualt:
+			break;
+	}
+	for( var i = 0; i < tracks.length; i++)
+		console.log(tracks[i].name);
 }
+
 function arrayContains(array, element) {
 	for(var i = 0; i < array.length; i++) {
     if (array[i] == element) {
@@ -147,8 +184,8 @@ Array.max = function( array ){
 };
 
 function fastestPath() {
+	coursesTaking = [];
 	//Process requirements
-	console.log(tracks.length);
 	for(var i = 0; i < tracks.length; i++) {
 		//Cycle through each required course
 		for(var j = 0; j < tracks[i].requiredCourses.length; j++) {
@@ -214,7 +251,6 @@ function fastestPath() {
 				while (l < tracks[i].electives.length && numElectivesSelected < tracks[i].electiveNum ) {
 					if((courseRanking[l] == bestChoiceIndex - temp) && !arrayContains(coursesTaking, tracks[i].electives[l])) {
 						coursesTaking.push(tracks[i].electives[l]);
-						console.log(numElectivesSelected + tracks[i].electives[l]);
 						numElectivesSelected++;
 					}
 					l++;
@@ -224,18 +260,17 @@ function fastestPath() {
 
 		}
 	}
-
-	console.log(coursesTaking);
+	printCourses();
 	return;
 }
 
-function reqCourses() {
-	core.push("CS180");
-	core.push("CS182");
-	core.push("CS240");
-	core.push("CS250");
-	core.push("CS251");
-	core.push("CS252");
-	//document.getElementById("demo3").innerHTML ="You must take the courses "+core.join(', ');
+function printCourses() {
+	console.log(coursesTaking);
+	var courseList = document.getElementById("courses");
+	for(var i = 0; i < coursesTaking.length; i++) {
+		var label = document.createElement("Paragraph");
+		label.innerHTML = coursesTaking[i] + " ";;
+		courseList.appendChild(label);
+	}
 }
 

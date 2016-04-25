@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    
+<script src="promptscript.js"> </script>
     
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,75 +13,52 @@
         <div class="container">
             <h2>CS252</h2>
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">Choose Major
-                    <span class="caret"></span></button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Computer Science</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another Major</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another Major</a></li>
-                    <li role="presentation" class="divider"></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Placeholder</a></li>
-                </ul>
+                <button class="btn btn-success" id="process" type="button" onclick='fastestPath();'>Process</button>
             </div><br>
         </div>
         
-        <script>
-            $(document).ready(function(){
-                              $(".dropdown-toggle").dropdown();
-                              });
+        <script> 
             </script>
         
     </body>
-    
     
     <div class="container">
         <p>Choose Track(s)</p>
         <form role="form">
             <div class="checkbox">
-                <label><input type="checkbox" value=""> Computational Science and Engineering</label>
+                <label><input type="checkbox" onclick='updateTracks("CSE");' value=""> Computational Science and Engineering</label>
             </div>
             <div class="checkbox">
-                <label><input type="checkbox" value="">Computer Graphics and Visualization</label>
+                <label><input type="checkbox" onclick='updateTracks("CGV");' value="">Computer Graphics and Visualization</label>
             </div>
             <div class="checkbox">
-                <label><input type="checkbox" value=""> Machine Intelligence</label>
+                <label><input type="checkbox" onclick='updateTracks("MI");' value=""> Machine Intelligence</label>
             </div>
             <div class="checkbox">
-                <label><input type="checkbox" value="">Programming languages</label>
+                <label><input type="checkbox" onclick='updateTracks("PL");' value="">Programming languages</label>
             </div>
             <div class="checkbox">
-                <label><input type="checkbox" value="">  Security</label>
+                <label><input type="checkbox" onclick='updateTracks("SEC");' value="">  Security</label>
             </div>
             <div class="checkbox">
-                <label><input type="checkbox" value="">Computer Graphics and Visualization</label>
+                <label><input type="checkbox" onclick='updateTracks("CGV");' value="">Computer Graphics and Visualization</label>
             </div>
             <div class="checkbox">
-                <label><input type="checkbox" value=""> Software Engineering</label>
+                <label><input type="checkbox" onclick='updateTracks("SE");' value=""> Software Engineering</label>
             </div>
             <div class="checkbox">
-                <label><input type="checkbox" value=""> Systems Programming</label>
+                <label><input type="checkbox" onclick='updateTracks("SYS");' value=""> Systems Programming</label>
             </div>
-            <div class="checkbox disabled">
-                <label><input type="checkbox" value=""> Database and Information Systems</label>
+            <div class="checkbox">
+                <label><input type="checkbox" onclick='updateTracks("DBIS");' value=""> Database and Information Systems</label>
             </div>
             
         </form>
     </div>
     
-    <div class="container">
-        <h2>Choose X Classes </h2>
+    <div id="courses">
+        <h2>Courses To Take:</h2>
         
-        <form role="form">
-            <label class="checkbox-inline">
-                <input type="checkbox" value="">Option 1
-                    </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" value="">Option 2
-                    </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" value="">Option 3
-                    </label>
-        </form>
     </div>
     
     
