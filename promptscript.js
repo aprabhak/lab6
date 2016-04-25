@@ -1,6 +1,5 @@
 var SoftwareEngineering = {
 	name: "SoftwareEngineering",
-	required: 3,
 	electiveNum: 2,
 	requiredCourses: ["CS307","CS408","CS407"],
 	choices: [["CS352", "CS354"]],
@@ -10,7 +9,6 @@ var SoftwareEngineering = {
 
 var Security = {
 	name: "Security",
-	required: 3,
 	electiveNum: 3,
 	choices: [],
 	requiredCourses: ["CS354","CS355","CS426"],
@@ -19,8 +17,7 @@ var Security = {
 };
 
 var SystemsProgramming = {
-	name: "SystemsProgramming",
-	required: 3,
+	name: "SystemsProgramming",	
 	electiveNum: 3,
 	choices: [],
 	requiredCourses: ["CS354","CS352","CS422"],
@@ -30,7 +27,6 @@ var SystemsProgramming = {
 
 var ProgrammingLanguage = {
 	name: "ProgrammingLanguage",
-	required: 3,
 	electiveNum: 3,
 	choices: [],
 	requiredCourses: ["CS354","CS352","CS456"],
@@ -40,7 +36,6 @@ var ProgrammingLanguage = {
 
 var MachineIntelligence = {
 	name: "MachineIntelligence",
-	required: 3,
 	electiveNum: 2,
 	choices: [["CS417", "CS473"], ["STAT416", "MA416", "STAT512"]],
 	requiredCourses: ["CS390","CS381"],
@@ -50,7 +45,6 @@ var MachineIntelligence = {
 
 var Foundations = {
 	name: "Foundations",
-	required: 3,
 	electiveNum: 4,
 	choices: [],
 	requiredCourses: ["CS352","CS381"],
@@ -60,7 +54,6 @@ var Foundations = {
 
 var Database = {
 	name: "Database",
-	required: 3,
 	electiveNum: 4,
 	choices: [],
 	requiredCourses: ["CS352","CS381"],
@@ -70,7 +63,6 @@ var Database = {
 
 var ComputerGraphics = {
 	name: "ComputerGraphics",
-	required: 3,
 	electiveNum: 4,
 	choices: [["CS314", "CS381"]],
 	requiredCourses: ["CS334"],
@@ -79,9 +71,13 @@ var ComputerGraphics = {
 };
 
 
-var coursesTaking = [];
-var tracks = [];
+var coursesTaking = []; //Holds the courses which will be taken.
+var tracks = []; //Holds the tracks the user wants us to compare.
 
+/*
+ * Populates the tracks array with the variable of the tracks according to how the checkboxes are clicked
+ * will remove the track if it is already in the array and add it if it is not yet in the array.
+ */
 function updateTracks(key) {
 	switch(key) {
 		case "CSE":
@@ -138,133 +134,162 @@ function updateTracks(key) {
 		defualt:
 			break;
 	}
+	//Writing to console just for testing. This will be removed. 
 	for( var i = 0; i < tracks.length; i++)
 		console.log(tracks[i].name);
 }
 
+/*
+ * Simple funciton which takes in an array and a possible element in that array and returns whether or not
+ * that element is in the array already.
+ */
 function arrayContains(array, element) {
 	for(var i = 0; i < array.length; i++) {
-    if (array[i] == element) {
-        return true;
-    	}
+    	if (array[i] == element)
+        	return true;
 	}
 }
 
+/*
+ * Function which takes the name of course and runs through all of the tracks counting the number of choices
+ * in total from all the tracks in the array that the course will satisfy.
+ */
 function howManyChoicesThisSatisfies(element) {
-	var num = 0;
+	var num = 0; //Current number of choices being satisified.
+	//Cycle through each track in array.
 	for(var i = 0; i < tracks.length; i++) {
-		//Cycle through each required course
+		//Cycle through each choice in the track.
 		for(var j = 0; j < tracks[i].choices.length; j++) {
-			//If a choice is already in the list then this choice is being satisfied
-			if(arrayContains(tracks[i].choices[j], element)) {
+			//If course is in array that it can satisfy the choice and we need to increment counter.
+			if(arrayContains(tracks[i].choices[j], element))
 				num++;
-			}
 		}
 	}
 	return num;
 }
 
+/*
+ * Function which takes the name of course and runs through all of the tracks counting the number of electives
+ * in total from all the tracks in the array that the course will satisfy. However this function also needs the
+ * index of the track for the course being tested because courses cannot double count for requirements and electives.
+ */
 function howManyElectivesThisSatisfies(element, index) {
-	var num = 0;
+	var num = 0;//Current number of electives being satisified.
 	for(var i = 0; i < tracks.length; i++) {
-		//Classes can't double count for electives also
+		//Classes can't double count for electives also.
 		if(i != index) {
-			//Cycle through each required course
-			//If a choice is already in the list then this choice is being satisfied
-			if(arrayContains(tracks[i].electives, element)) {
+			//If course is in array that it can satisfy the elective and we need to increment counter.
+			if(arrayContains(tracks[i].electives, element))
 				num++;
-			}
 		}
 		return num;
 	}
 }
 
+// Quick function which just returns the maximum value in an array.
 Array.max = function( array ){
     return Math.max.apply( Math, array );
 };
 
+/*
+ * Function which finds the lowest number of courses necessary to satisfy the tracks in the 'tracks' array.
+ */
 function fastestPath() {
-	coursesTaking = [];
-	//Process requirements
+	coursesTaking = []; // Courses which will be taken.
+
+	// Process requirements: every required course for every track is added to the list. 
+	// Cycle through each track.
 	for(var i = 0; i < tracks.length; i++) {
-		//Cycle through each required course
+		// Cycle through each required course.
 		for(var j = 0; j < tracks[i].requiredCourses.length; j++) {
-			//If the course is already in the list do not add
+			// If the course is already in the list do not add again.
 			if(!arrayContains(coursesTaking, tracks[i].requiredCourses[j]))
 				coursesTaking.push(tracks[i].requiredCourses[j]);
 		}
 	}
 
-	//Process choices
+	// Process choices
+	// Cycle through each track.
 	for(var i = 0; i < tracks.length; i++) {
-		//Cycle through each choice
+		// Cycle through each choice that needs to be made if one of the courses for this choice is already
+		// being taken then we can skip past this choice, but if none of the courses are already being taken
+		// we need to make a decision and choose the best course to take in this situation.
 		for(var j = 0; j < tracks[i].choices.length; j++) {
-			//Cycle through all of the courses that can be chosen
-			var foundCourse = false;
+			var foundACourse = false; // Whether or not this course is already being taken.
+			// Cycle through all of the courses that can be chosen.
 			for(var k = 0; k < tracks[i].choices[j].length; k++) {
-				//If a choice is already in the list then this choice is being satisfied
+				// Check to see if this course is already being taken.
 				if(arrayContains(coursesTaking, tracks[i].choices[j][k])) {
-					foundCourse = true;
-					break;
+					foundACourse = true; //Set flag.
+					break; // If at least one of these courses if being taken then the rest do not matter.
 				}
 			}
 
-			//If a course was not found we need to pick which one to take
-			var courseRanking = new Array(tracks[i].choices[j].length); //Will store the number of other choices each course can satisfy
-			if(!foundCourse) {
-				//Cycle through each course again.
+			//If a course was not found we need to pick which one to take.
+			if(!foundACourse) {
+				var courseRanking = new Array(tracks[i].choices[j].length); // Will store the number of other choices each course can satisfy.
+				// Cycle through each course again.
 				for(var p = 0; p < tracks[i].choices[j].length; p++) {
-					//count number of choices it fulfills
+					// Count number of choices it fulfills.
 					courseRanking[p] = parseInt(howManyChoicesThisSatisfies(tracks[i].choices[j][p]));
 
-					//count number of electives it fills
+					// Count number of electives it fills.
 					courseRanking[p] += parseInt(howManyElectivesThisSatisfies(tracks[i].choices[j][p]), i);
 				}
-				var bestChoiceIndex = Array.max(courseRanking);
-				coursesTaking.push(tracks[i].choices[j][courseRanking.indexOf(bestChoiceIndex)]);
+				var bestChoiceIndex = Array.max(courseRanking); // The most satisfactions by a course.
+				coursesTaking.push(tracks[i].choices[j][courseRanking.indexOf(bestChoiceIndex)]); // Add the best course.
 			}
 		}
 	}
 
-	//Process electives
+	// Process electives
+	// Cycle through each track.
 	for(var i = 0; i < tracks.length; i++) {
-		var numElectivesSelected = 0;
-		//Cycle until number of electives needed are found
-		//Count all possible electives already being taken
+		var numElectivesSelected = 0; // Number of electives found.
+		// Cycle through list of possible electives.
 		for(var k = 0; k < tracks[i].electives.length; k++) {
-			if(arrayContains(coursesTaking, tracks[i].electives[k]) && !arrayContains(tracks[i].arrRequired, tracks[i].electives[k])) {
+			// Count all possible electives already being taken
+			if(arrayContains(coursesTaking, tracks[i].electives[k]) && !arrayContains(tracks[i].arrRequired, tracks[i].electives[k]))
 				numElectivesSelected++;
-			}
 		}
-		console.log(numElectivesSelected);
+		// Check to see if at least the number of electives needed are already being taken. If not enough possible
+		// electives are already being taken then we need to make a selection.
 		if(numElectivesSelected < tracks[i].electiveNum) {
-			var courseRanking = new Array(tracks[i].electives.length);
-			//Cycle through each course again.
+			var courseRanking = new Array(tracks[i].electives.length); // Will store the number of other electives each course can satisfy.
+			// Cycle through each course again.
 			for(var p = 0; p < tracks[i].electives.length; p++) {
-				//count number of other electives it fills
+				// Count number of other electives it fills
 				courseRanking[p] = parseInt(howManyElectivesThisSatisfies(tracks[i].electives[p], i));
 			}
-			var bestChoiceIndex = Array.max(courseRanking);
-			var temp = 0;
+			var bestChoiceIndex = Array.max(courseRanking); // The most satisfactions by a course.
+			var numberTimesRemoved = 0; // The number of places past the most satisfactions which we will chose.
+			// Cycle and choce electives until the right number has been chosen. 
 			while (numElectivesSelected < tracks[i].electiveNum) {
-				var l = 0;
+				var l = 0; // Temp.
+				// Cycle until we have gone all the way through the list or until we have enough electives.
 				while (l < tracks[i].electives.length && numElectivesSelected < tracks[i].electiveNum ) {
-					if((courseRanking[l] == bestChoiceIndex - temp) && !arrayContains(coursesTaking, tracks[i].electives[l])) {
+					// Check to see if this elective is not already in the list and if it is the current best choice. 
+					// If so add the elective and icrement counter.
+					if((courseRanking[l] == bestChoiceIndex - numberTimesRemoved) && !arrayContains(coursesTaking, tracks[i].electives[l])) {
 						coursesTaking.push(tracks[i].electives[l]);
 						numElectivesSelected++;
 					}
 					l++;
 				}
-				temp++;
+				numberTimesRemoved++;
 			}
 
 		}
 	}
-	printCourses();
+	displayCourses(); // Call to have courses displayed.
 	return;
 }
 
-function printCourses() {
+/*
+ * Runs through the complete array of courses chosen and adds them as a paragraph on screen. This will need 
+ * to be rewritten after we decide how we are actually showing the courses. 
+ */
+function displayCourses() {
 	console.log(coursesTaking);
 	var courseList = document.getElementById("courses");
 	for(var i = 0; i < coursesTaking.length; i++) {
