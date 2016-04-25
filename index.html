@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<script src="promptscript.js"> </script>
+    
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="bootstrap.min.css">
+                <script src="jquery.min.js"></script>
+                <script src="bootstrap.min.js"></script>
+                </head>
+    <body>
+        
+        <div class="container">
+            <h2>CS252</h2>
+            <div class="dropdown">
+                <button class="btn btn-success" id="process" type="button" onclick='fastestPath();'>Process</button>
+            </div><br>
+        </div>
+        
+        <script> 
+            </script>
+        
+    </body>
+    
+    <div class="container">
+        <p>Choose Track(s)</p>
+        <form role="form">
+            <div class="checkbox">
+                <label><input type="checkbox" onclick='updateTracks("CSE");' value=""> Computational Science and Engineering</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" onclick='updateTracks("CGV");' value="">Computer Graphics and Visualization</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" onclick='updateTracks("MI");' value=""> Machine Intelligence</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" onclick='updateTracks("PL");' value="">Programming languages</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" onclick='updateTracks("SEC");' value="">  Security</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" onclick='updateTracks("CGV");' value="">Computer Graphics and Visualization</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" onclick='updateTracks("SE");' value=""> Software Engineering</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" onclick='updateTracks("SYS");' value=""> Systems Programming</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" onclick='updateTracks("DBIS");' value=""> Database and Information Systems</label>
+            </div>
+            
+        </form>
+    </div>
+    
+    <div id="courses">
+        <h2>Courses To Take:</h2>
+        
+    </div>
+    
+    
+</html>

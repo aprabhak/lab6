@@ -1,7 +1,7 @@
 ---
 applications:
-- buildpack: https://github.com/cloudfoundry/staticfile-buildpack
-  host: Lab6test
-  name: Lab6test
+- buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
+  host: helloworld-html-${random-word}
+  name: lab6
   memory: 64M
-  
+  stack: cflinuxfs2
