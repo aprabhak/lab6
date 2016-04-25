@@ -37,7 +37,7 @@ var ProgrammingLanguage = {
 var MachineIntelligence = {
 	name: "MachineIntelligence",
 	electiveNum: 2,
-	choices: [["CS417", "CS473"], ["STAT416", "MA416", "STAT512"]],
+	choices: [["CS471", "CS473"], ["STAT416", "MA416", "STAT512"]],
 	requiredCourses: ["CS390","CS381"],
 	arrRequired: ["CS390","CS381"],
 	electives: ["CS348","CS352","CS448","CS456", "CS483", "CS471", "CS473"],
@@ -290,8 +290,10 @@ function fastestPath() {
  * to be rewritten after we decide how we are actually showing the courses. 
  */
 function displayCourses() {
+	var courseList = document.getElementById('courses');
+	courseList.innerHTML = "<h2>Courses To Take:</h2>"
 	console.log(coursesTaking);
-	var courseList = document.getElementById("courses");
+	coursesTaking = coursesTaking.sort();
 	for(var i = 0; i < coursesTaking.length; i++) {
 		var label = document.createElement("Paragraph");
 		label.innerHTML = coursesTaking[i] + " ";;
