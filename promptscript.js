@@ -77,8 +77,12 @@ var ZComputanionalScienceAndEngineering = {
 	choices: [["MA266", "MA366"]],
 	requiredCourses: ["CS314"],
 	arrRequired: [],
+	electives: [],
 	electives1: [["CS307", "CS334"], ["CS352", "CS354", "CS381", "CS434", "CS348", 
 	"CS448", "CS471", "CS490"], ["CS381"], ["CS354"], ["CS514", "CS515", "CS497"], ["CS334", "CS352", "CS456", "CS471", "CS483"]],
+	electivesList1: ["CS307", "CS334", "CS352", "CS354", "CS381", "CS434", "CS348", 
+	"CS448", "CS471", "CS490"],
+	electivesList2: ["CS381","CS354","CS514", "CS515", "CS497","CS334", "CS352", "CS456", "CS471", "CS483"],
 };
 
 
@@ -269,55 +273,106 @@ function fastestPath() {
 			var countEleList1 = 0;
 			var countEleList2 = 0;
 			for(var m = 0; m < tracks[i].electives1.length; m++) {
-				if(arrayContains(coursesTaking, tracks[i].electives1[m])) {
-					listCount[m]++;
-					if(m <= 2)
-						countEleList1++;
-					else
-						countEleList2++;
-				}
-			}
-			if(countEleList1 >= countEleList2) {
-				if(listCount[0] == 0) {
-
-				}
-			}
-		}
-		var numElectivesSelected = 0; // Number of electives found.
-		// Cycle through list of possible electives.
-		for(var k = 0; k < tracks[i].electives.length; k++) {
-			// Count all possible electives already being taken
-			if(arrayContains(coursesTaking, tracks[i].electives[k]) && !arrayContains(tracks[i].arrRequired, tracks[i].electives[k]))
-				numElectivesSelected++;
-		}
-		// Check to see if at least the number of electives needed are already being taken. If not enough possible
-		// electives are already being taken then we need to make a selection.
-		if(numElectivesSelected < tracks[i].electiveNum) {
-			var courseRanking = new Array(tracks[i].electives.length); // Will store the number of other electives each course can satisfy.
-			// Cycle through each course again.
-			for(var p = 0; p < tracks[i].electives.length; p++) {
-				// Count number of other electives it fills
-				courseRanking[p] = parseInt(howManyElectivesThisSatisfies(tracks[i].electives[p], i));
-			}
-			var bestChoiceIndex = Array.max(courseRanking); // The most satisfactions by a course.
-			var numberTimesRemoved = 0; // The number of places past the most satisfactions which we will chose.
-			// Cycle and choce electives until the right number has been chosen. 
-			while (numElectivesSelected < tracks[i].electiveNum) {
-				var l = 0; // Temp.
-				// Cycle until we have gone all the way through the list or until we have enough electives.
-				while (l < tracks[i].electives.length && numElectivesSelected < tracks[i].electiveNum ) {
-					// Check to see if this elective is not already in the list and if it is the current best choice. 
-					// If so add the elective and icrement counter.
-					if((courseRanking[l] == bestChoiceIndex - numberTimesRemoved) && !arrayContains(coursesTaking, tracks[i].electives[l])) {
-						coursesTaking.push(tracks[i].electives[l]);
-						console.log(tracks[i].electives[l]);
-						numElectivesSelected++;
+				for(var n = 0; n < tracks[i].electives1[m].length; n++) {
+					if(arrayContains(coursesTaking, tracks[i].electives1[m][n])) {
+						listCount[m]++;
+						if(m <= 2)
+							countEleList1++;
+						else
+							countEleList2++;
 					}
-					l++;
 				}
-				numberTimesRemoved++;
 			}
+			console.log(countEleList1);
+			console.log(countEleList2);
+			if(countEleList1 < 5 && countEleList2 < 5) {
+				console.log("here");
+				if(countEleList1 >= countEleList2) {
+					console.log("he222re");
+					for(var b = 0; b < 2; b++) {
+						if(listCount[b] == 0 && countEleList1 < 5) {
+							console.log("he777re");
+							for(var t = 0; t < ZComputanionalScienceAndEngineering.electives1[b].length; t++) {
+								if(!arrayContains(coursesTaking, ZComputanionalScienceAndEngineering.electives1[b][t])) {
+									coursesTaking.push(ZComputanionalScienceAndEngineering.electives1[b][t]);
+									countEleList1++;
+									break;
+								}
+							}
+						}
+					}
+					console.log(coursesTaking);
+					var t = 0;
+					while(countEleList1 < 5 && t < ZComputanionalScienceAndEngineering.electivesList1.length) {
+						console.log("back here");
+						if(!arrayContains(coursesTaking, ZComputanionalScienceAndEngineering.electivesList1[t])) {
+							coursesTaking.push(ZComputanionalScienceAndEngineering.electivesList1[t]);
+							countEleList1++;
+						}
+						t++;						
+					}
+					console.log(coursesTaking);
+				}
+				else {
+					for(var b = 2; b < ZComputanionalScienceAndEngineering.electives1.length; b++) {
+						if(listCount[b] == 0 && countEleList2 < 5) {
+							for(var t = 0; t < ZComputanionalScienceAndEngineering.electives1[b].length; t++) {
+								if(!arrayContains(coursesTaking, ZComputanionalScienceAndEngineering.electives1[b][t])) {
+									coursesTaking.push(ZComputanionalScienceAndEngineering.electives1[b][t]);
+									countEleList2++;
+									break;
+								}
+							}
+						}
+					}
+					var t = 0;
+					while(countEleList2 < 5 && t < ZComputanionalScienceAndEngineering.electivesList2.length) {
+						if(!arrayContains(coursesTaking, ZComputanionalScienceAndEngineering.electivesList2[t])) {
+							coursesTaking.push(ZComputanionalScienceAndEngineering.electivesList2[t]);
+							countEleList2++;
+						}
+						t++;						
+					}
+				}
+			}
+		}
+		else {
+			var numElectivesSelected = 0; // Number of electives found.
+			// Cycle through list of possible electives.
+			for(var k = 0; k < tracks[i].electives.length; k++) {
+				// Count all possible electives already being taken
+				if(arrayContains(coursesTaking, tracks[i].electives[k]) && !arrayContains(tracks[i].arrRequired, tracks[i].electives[k]))
+					numElectivesSelected++;
+			}
+			// Check to see if at least the number of electives needed are already being taken. If not enough possible
+			// electives are already being taken then we need to make a selection.
+			if(numElectivesSelected < tracks[i].electiveNum) {
+				var courseRanking = new Array(tracks[i].electives.length); // Will store the number of other electives each course can satisfy.
+				// Cycle through each course again.
+				for(var p = 0; p < tracks[i].electives.length; p++) {
+					// Count number of other electives it fills
+					courseRanking[p] = parseInt(howManyElectivesThisSatisfies(tracks[i].electives[p], i));
+				}
+				var bestChoiceIndex = Array.max(courseRanking); // The most satisfactions by a course.
+				var numberTimesRemoved = 0; // The number of places past the most satisfactions which we will chose.
+				// Cycle and choce electives until the right number has been chosen. 
+				while (numElectivesSelected < tracks[i].electiveNum) {
+					var l = 0; // Temp.
+					// Cycle until we have gone all the way through the list or until we have enough electives.
+					while (l < tracks[i].electives.length && numElectivesSelected < tracks[i].electiveNum ) {
+						// Check to see if this elective is not already in the list and if it is the current best choice. 
+						// If so add the elective and icrement counter.
+						if((courseRanking[l] == bestChoiceIndex - numberTimesRemoved) && !arrayContains(coursesTaking, tracks[i].electives[l])) {
+							coursesTaking.push(tracks[i].electives[l]);
+							console.log(tracks[i].electives[l]);
+							numElectivesSelected++;
+						}
+						l++;
+					}
+					numberTimesRemoved++;
+				}
 
+			}
 		}
 	}
 	displayCourses(); // Call to have courses displayed.
