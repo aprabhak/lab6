@@ -71,13 +71,14 @@ var ComputerGraphics = {
 	electives: ["CS314", "CS352","CS354","CS381","CS422", "CS434", "CS448", "CS471"],
 };
 
-var ComputanionalScienceAndEngineering = {
+var ZComputanionalScienceAndEngineering = {
 	name: "ComputerGraphics",
-	electiveNum: 4,
-	choices: [["CS314", "CS381"]],
-	requiredCourses: ["CS334"],
+	electiveNum: 5,
+	choices: [["MA266", "MA366"]],
+	requiredCourses: ["CS314"],
 	arrRequired: [],
-	electives: ["CS352","CS354","CS381","CS422", "CS434", "CS448", "CS314", "CS471"],
+	electives1: [["CS307", "CS334"], ["CS352", "CS354", "CS381", "CS434", "CS348", 
+	"CS448", "CS471", "CS490"], ["CS381"], ["CS354"], ["CS514", "CS515", "CS497"], ["CS334", "CS352", "CS456", "CS471", "CS483"]],
 };
 
 
@@ -91,10 +92,10 @@ var tracks = []; //Holds the tracks the user wants us to compare.
 function updateTracks(key) {
 	switch(key) {
 		case "CSE":
-			if(arrayContains(tracks, ComputanionalScienceAndEngineering))
-				tracks.splice(tracks.indexOf(ComputanionalScienceAndEngineering), 1);
+			if(arrayContains(tracks, ZComputanionalScienceAndEngineering))
+				tracks.splice(tracks.indexOf(ZComputanionalScienceAndEngineering), 1);
 			else
-				tracks.push(ComputanionalScienceAndEngineering);
+				tracks.push(ZComputanionalScienceAndEngineering);
 			break;
 		case "CGV":
 			if(arrayContains(tracks, ComputerGraphics))
@@ -205,6 +206,7 @@ Array.max = function( array ){
  * Function which finds the lowest number of courses necessary to satisfy the tracks in the 'tracks' array.
  */
 function fastestPath() {
+	tracks = tracks.sort(); // Alphabetize tracks.
 	coursesTaking = []; // Courses which will be taken.
 
 	// Process requirements: every required course for every track is added to the list. 
@@ -247,11 +249,11 @@ function fastestPath() {
 					courseRanking[p] += parseInt(howManyElectivesThisSatisfies(tracks[i].choices[j][p]), i);
 				}
 				var bestChoiceIndex = Array.max(courseRanking); // The most satisfactions by a course.
-				try {
+				if(bestChoiceIndex) {
 					coursesTaking.push(tracks[i].choices[j][courseRanking.indexOf(bestChoiceIndex)]); // Add the best course.
 					tracks[i].arrRequired.push(tracks[i].choices[j][courseRanking.indexOf(bestChoiceIndex)]);
 				}
-				catch(err) {
+				else {
 					coursesTaking.push(tracks[i].choices[j][0]);
 					tracks[i].arrRequired.push(tracks[i].choices[j][0]);
 				}
@@ -262,6 +264,25 @@ function fastestPath() {
 	// Process electives
 	// Cycle through each track.
 	for(var i = 0; i < tracks.length; i++) {
+		if(tracks[i]  == ZComputanionalScienceAndEngineering) {
+			var listCount = new Array(6);
+			var countEleList1 = 0;
+			var countEleList2 = 0;
+			for(var m = 0; m < tracks[i].electives1.length; m++) {
+				if(arrayContains(coursesTaking, tracks[i].electives1[m])) {
+					listCount[m]++;
+					if(m <= 2)
+						countEleList1++;
+					else
+						countEleList2++;
+				}
+			}
+			if(countEleList1 >= countEleList2) {
+				if(listCount[0] == 0) {
+
+				}
+			}
+		}
 		var numElectivesSelected = 0; // Number of electives found.
 		// Cycle through list of possible electives.
 		for(var k = 0; k < tracks[i].electives.length; k++) {
