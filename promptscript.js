@@ -3,7 +3,7 @@ var SoftwareEngineering = {
 	electiveNum: 2,
 	requiredCourses: ["CS307","CS408","CS407"],
 	choices: [["CS352", "CS354"]],
-	arrRequired: ["CS307","CS352","CS354","CS408","CS407"],
+	arrRequired: [],
 	electives: ["CS348","CS352","CS353","CS354","CS381","CS422","CS426","CS448","CS456","CS473","CS481","CS454"],
 };
 
@@ -12,7 +12,7 @@ var Security = {
 	electiveNum: 3,
 	choices: [],
 	requiredCourses: ["CS354","CS355","CS426"],
-	arrRequired: ["CS354","CS355","CS426"],
+	arrRequired: [],
 	electives: ["CS307","CS348","CS352","CS353","CS381","CS408","CS422","CS448","CS454","CS481"],
 };
 
@@ -20,17 +20,17 @@ var SystemsProgramming = {
 	name: "SystemsProgramming",	
 	electiveNum: 3,
 	choices: [],
-	requiredCourses: ["CS354","CS352","CS422"],
-	arrRequired: ["CS354","CS352","CS422"],
-	electives: ["CS307","CS334","CS456","CS353","CS381","CS426","CS454","CS448","CS481"],
+	requiredCourses: ["CS352","CS354","CS422"],
+	arrRequired: [],
+	electives: ["CS307","CS334","CS353","CS381","CS426","CS448","CS456","CS454","CS481"],
 }; 
 
 var ProgrammingLanguage = {
 	name: "ProgrammingLanguage",
 	electiveNum: 3,
 	choices: [],
-	requiredCourses: ["CS354","CS352","CS456"],
-	arrRequired: ["CS354","CS352","CS456"],
+	requiredCourses: ["CS352","CS354","CS456"],
+	arrRequired: [],
 	electives: ["CS307","CS353","CS381","CS422", "CS483"],
 };
 
@@ -40,7 +40,7 @@ var MachineIntelligence = {
 	choices: [["CS471", "CS473"], ["STAT416", "MA416", "STAT512"]],
 	requiredCourses: ["CS390","CS381"],
 	arrRequired: ["CS390","CS381"],
-	electives: ["CS348","CS352","CS448","CS456", "CS483", "CS471", "CS473"],
+	electives: ["CS348","CS352","CS448","CS456", "CS471", "CS473", "CS483"],
 };  
 
 var Foundations = {
@@ -48,17 +48,18 @@ var Foundations = {
 	electiveNum: 4,
 	choices: [],
 	requiredCourses: ["CS352","CS381"],
-	arrRequired: ["CS352","CS381"],
-	electives: ["CS334","CS355","CS448","CS456", "CS483", "CS471", "CS314"],
+	arrRequired: [],
+	electives: ["CS314", "CS334","CS355","CS448","CS456", "CS471", "CS483"],
 };
 
 var Database = {
 	name: "Database",
-	electiveNum: 4,
-	choices: [],
-	requiredCourses: ["CS352","CS381"],
-	arrRequired: ["CS390","CS381"],
-	electives: ["CS334","CS355","CS448","CS456", "CS483", "CS471", "CS314"],
+	electiveNum: 0,
+	choices: [["CS390-DMO", "CS473"], ["CS352", "CS354"], ["CS355", "CS426"], 
+	["CS390-DMO", "CS422", "CS471", "CS473", "CS478", "CS490"]],
+	requiredCourses: ["CS348","CS381", "CS448"],
+	arrRequired: [],
+	electives: [],
 };
 
 var ComputerGraphics = {
@@ -66,7 +67,16 @@ var ComputerGraphics = {
 	electiveNum: 4,
 	choices: [["CS314", "CS381"]],
 	requiredCourses: ["CS334"],
-	arrRequired: ["CS314", "CS381"],
+	arrRequired: [],
+	electives: ["CS314", "CS352","CS354","CS381","CS422", "CS434", "CS448", "CS471"],
+};
+
+var ComputanionalScienceAndEngineering = {
+	name: "ComputerGraphics",
+	electiveNum: 4,
+	choices: [["CS314", "CS381"]],
+	requiredCourses: ["CS334"],
+	arrRequired: [],
 	electives: ["CS352","CS354","CS381","CS422", "CS434", "CS448", "CS314", "CS471"],
 };
 
@@ -81,7 +91,10 @@ var tracks = []; //Holds the tracks the user wants us to compare.
 function updateTracks(key) {
 	switch(key) {
 		case "CSE":
-
+			if(arrayContains(tracks, ComputanionalScienceAndEngineering))
+				tracks.splice(tracks.indexOf(ComputanionalScienceAndEngineering), 1);
+			else
+				tracks.push(ComputanionalScienceAndEngineering);
 			break;
 		case "CGV":
 			if(arrayContains(tracks, ComputerGraphics))
@@ -134,9 +147,6 @@ function updateTracks(key) {
 		defualt:
 			break;
 	}
-	//Writing to console just for testing. This will be removed. 
-	for( var i = 0; i < tracks.length; i++)
-		console.log(tracks[i].name);
 }
 
 /*
@@ -237,7 +247,14 @@ function fastestPath() {
 					courseRanking[p] += parseInt(howManyElectivesThisSatisfies(tracks[i].choices[j][p]), i);
 				}
 				var bestChoiceIndex = Array.max(courseRanking); // The most satisfactions by a course.
-				coursesTaking.push(tracks[i].choices[j][courseRanking.indexOf(bestChoiceIndex)]); // Add the best course.
+				try {
+					coursesTaking.push(tracks[i].choices[j][courseRanking.indexOf(bestChoiceIndex)]); // Add the best course.
+					tracks[i].arrRequired.push(tracks[i].choices[j][courseRanking.indexOf(bestChoiceIndex)]);
+				}
+				catch(err) {
+					coursesTaking.push(tracks[i].choices[j][0]);
+					tracks[i].arrRequired.push(tracks[i].choices[j][0]);
+				}
 			}
 		}
 	}
@@ -272,6 +289,7 @@ function fastestPath() {
 					// If so add the elective and icrement counter.
 					if((courseRanking[l] == bestChoiceIndex - numberTimesRemoved) && !arrayContains(coursesTaking, tracks[i].electives[l])) {
 						coursesTaking.push(tracks[i].electives[l]);
+						console.log(tracks[i].electives[l]);
 						numElectivesSelected++;
 					}
 					l++;
