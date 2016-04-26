@@ -1,34 +1,38 @@
 <!DOCTYPE html>
 <html>
 <script src="promptscript.js"> </script>
-    
+
+
+
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-            <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-                <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+            <link rel="stylesheet" href="bootstrap.min.css">
+                <script src="jquery.min.js"></script>
+                <script src="bootstrap.min.js"></script>
                 </head>
     <body>
+       
+       
+        <button type="button" class="btn btn-info">Print</button>
+       <button type="button" class="btn btn-primary">Share</button>
+       
+     
         
-        <div class="container">
-            <h2>CS252</h2>
-            <div class="dropdown">
-                <button class="btn btn-success" id="process" type="button" onclick='fastestPath();'>Process</button>
-            </div><br>
-        </div>
-        
-        <script> 
-            </script>
+        <div class="container text-center">
+            <h2>Track Helper</h2>
+             <br>
         
     </body>
+
     
-    <div class="container">
+    <div class="outerContainer" style="text-align: center;">
         <p>Choose Track(s)</p>
+        <div class="innerContainer" style="display: inline-block; text-align: left;">
         <form role="form">
-            <div class="checkbox">
+            <div class="checkbox text-left">
                 <label><input type="checkbox" onclick='updateTracks("CSE");' value="">Computational Science and Engineering</label>
             </div>
-            <div class="checkbox">
+            <div class="checkbox text-left">
                 <label><input type="checkbox" onclick='updateTracks("CGV");' value="">Computer Graphics and Visualization</label>
             </div>
             <div class="checkbox">
@@ -52,13 +56,32 @@
             <div class="checkbox">
                 <label><input type="checkbox" onclick='updateTracks("SYS");' value="">Systems Programming</label>
             </div>
+            
         </form>
     </div>
+    
+    
+    <body>
+        
+        <div class="container text-center">
+              <br>
+            <div class="dropdown">
+                <button class="btn btn-success" id="process" type="button" onclick='fastestPath();'>Go!</button>
+            </div>
+            <br>
+        </div>
+        
+        <script>
+            </script>
+        
+    </body>
     
     <div id="courses">
         <h2>Courses To Take:</h2>
         
     </div>
+    
+ 
     
     
 </html>
