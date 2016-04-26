@@ -390,7 +390,10 @@ function displayCourses() {
 	coursesTaking = coursesTaking.sort();
 	for(var i = 0; i < coursesTaking.length; i++) {
 		var label = document.createElement("Paragraph");
-		label.innerHTML = coursesTaking[i] + " ";;
+		if(i < coursesTaking.length - 1)
+			label.innerHTML = coursesTaking[i] + ", ";
+		else
+			label.innerHTML = coursesTaking[i];
 		courseList.appendChild(label);
 	}
 }
