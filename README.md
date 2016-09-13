@@ -1,2 +1,2 @@
-# lab6
+# lab6 - Open ended project
 CoursePlanner
